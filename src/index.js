@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App from './components/App';
+import Catalog from './components/Catalog'
 import registerServiceWorker from './registerServiceWorker';
 import Firebase from 'firebase';
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 dotenv.config()
 
@@ -18,5 +20,12 @@ const config = {
 }
 let FirebaseApp = Firebase.initializeApp(config)
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <Router>
+      <div>
+        <Route exact path="/" component={App} />
+        <Route exact path="/catalog" component={Catalog} />
+      </div>
+  </Router>,
+  document.getElementById('root'));
 registerServiceWorker();
