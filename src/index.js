@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
-import Catalog from './components/Catalog'
+import Catalog from './components/Catalog';
+import Thread from './components/Thread';
 import registerServiceWorker from './registerServiceWorker';
 import Firebase from 'firebase';
 import dotenv from 'dotenv';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 dotenv.config()
 
@@ -17,14 +18,15 @@ const config = {
   storageBucket: process.env.STORAGE_BUCKET,
   messagingSenderId: process.env.MESSAGING_SENDER_ID
 }
-let FirebaseApp = Firebase.initializeApp(config)
+Firebase.initializeApp(config)
 
 ReactDOM.render(
   <Router>
-      <div>
+      <Switch>
         <Route exact path="/" component={App} />
         <Route exact path="/catalog" component={Catalog} />
-      </div>
+        <Route exact path="/thread" component={Thread} />
+      </Switch>
   </Router>,
   document.getElementById('root'));
 registerServiceWorker();

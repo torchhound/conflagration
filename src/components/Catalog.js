@@ -1,16 +1,79 @@
 import React, { Component } from 'react';
+import Navbar from './Navbar';
 
 class Catalog extends Component {
   render() {
     return (
-      <div className="Catalog" class="hero is-dark is-fullheight">
-        <header class="container">
-          <h1>Catalog</h1>
-        </header>
-        <p class="container">
-          Imageboard in progress <br/>
-          <a href="/">Home</a>
-        </p>
+      <div className="Catalog">
+        <div className="columns is-multiline">
+          <div className="column is-one-quarter">
+            <div className="box">
+              <figure className="image is-128x128">
+                <img src=""/>
+              </figure>
+              <a href="/thread">Lorem Ipsum</a>
+            </div>
+          </div>
+          <div className="column is-one-quarter">
+            <div className="box">
+              <figure className="image is-128x128">
+                <img src=""/>
+              </figure>
+              <a href="/thread">Lorem Ipsum</a>
+            </div>
+          </div>
+          <div className="column is-one-quarter">
+            <div className="box">
+              <figure className="image is-128x128">
+                <img src=""/>
+              </figure>
+              <a href="/thread">Lorem Ipsum</a>
+            </div>
+          </div>
+          <div className="column is-one-quarter">
+            <div className="box">
+              <figure className="image is-128x128">
+                <img src=""/>
+              </figure>
+              <a href="/thread">Lorem Ipsum</a>
+            </div>
+          </div>
+          <div className="column is-one-quarter">
+            <div className="box">
+              <figure className="image is-128x128">
+                <img src=""/>
+              </figure>
+              <a href="/thread">Lorem Ipsum</a>
+            </div>
+          </div>
+          <div className="column is-one-quarter">
+            <div className="box">
+              <figure className="image is-128x128">
+                <img src=""/>
+              </figure>
+              <a href="/thread">Lorem Ipsum</a>
+            </div>
+          </div>
+          <div className="column is-one-quarter">
+            <div className="box">
+              <figure className="image is-128x128">
+                <img src=""/>
+              </figure>
+              <a href="/thread">Lorem Ipsum</a>
+            </div>
+          </div>
+          <div className="column is-one-quarter">
+            <div className="box">
+              <figure className="image is-128x128">
+                <img src=""/>
+              </figure>
+              <a href="/thread">Lorem Ipsum</a>
+            </div>
+          </div>
+        </div>
+        <footer className="footer">
+            <Navbar/>
+        </footer>
       </div>
     );
   }
