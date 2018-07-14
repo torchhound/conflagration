@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Navbar from './Navbar';
 
 class CreateBoard extends Component {
   render() {

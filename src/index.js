@@ -5,20 +5,16 @@ import Catalog from './components/Catalog';
 import Thread from './components/Thread';
 import registerServiceWorker from './registerServiceWorker';
 import Firebase from 'firebase';
-import dotenv from 'dotenv';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-dotenv.config()
-
 const config = {
-  apiKey: process.env.API_KEY,
-  authDomain: process.env.AUTH_DOMAIN,
-  databaseURL: process.env.DATABASE_URL,
-  projectId: process.env.PROJECT_ID,
-  storageBucket: process.env.STORAGE_BUCKET,
-  messagingSenderId: process.env.MESSAGING_SENDER_ID
-}
-Firebase.initializeApp(config)
+  apiKey: 'AIzaSyCVC54ShrF5teBwUl_le5p31eu3f4D-v84',
+  authDomain: 'conflagration-91331.firebaseapp.com',
+  databaseURL: 'https://conflagration-91331.firebaseio.com',
+  projectId: 'conflagration-91331',
+  storageBucket: 'conflagration-91331.appspot.com'
+};
+Firebase.initializeApp(config);
 
 ReactDOM.render(
   <Router>
