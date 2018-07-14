@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import Navbar from './Navbar';
+import CreateThread from './createThread';
 
 class Catalog extends Component {
   render() {
     return (
       <div className="Catalog">
+        <header>
+          <h1 className="title">Catalog</h1>
+          <CreateThread/>
+        </header>
         <div className="columns is-multiline">
           <div className="column is-one-quarter">
             <div className="box">
