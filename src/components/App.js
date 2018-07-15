@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Navbar from './Navbar';
-import CreateBoard from './createBoard';
 
 class App extends Component {
   render() {
@@ -18,9 +17,6 @@ class App extends Component {
             </div>
           </div>
           <div className="hero-foot">
-            <div className="container has-text-centered">
-              <CreateBoard/>
-            </div>
             <Navbar/>
           </div>
         </section>

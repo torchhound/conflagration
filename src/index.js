@@ -6,6 +6,9 @@ import Thread from './components/Thread';
 import registerServiceWorker from './registerServiceWorker';
 import Firebase from 'firebase';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import imageboard from './actions/reducers';
 
 const config = {
   apiKey: 'AIzaSyCVC54ShrF5teBwUl_le5p31eu3f4D-v84',
@@ -16,13 +19,21 @@ const config = {
 };
 Firebase.initializeApp(config);
 
+const firestore = Firebase.firestore();
+const settings = {timestampsInSnapshots: true};
+firestore.settings(settings);
+
+const store = createStore(imageboard);
+
 ReactDOM.render(
-  <Router>
-      <Switch>
-        <Route exact path="/" component={App} />
-        <Route exact path="/catalog" component={Catalog} />
-        <Route exact path="/thread" component={Thread} />
-      </Switch>
-  </Router>,
+  <Provider store={store}>
+    <Router>
+        <Switch>
+          <Route exact path="/" component={App} />
+          <Route exact path="/catalog/:board" component={Catalog} />
+          <Route exact path="/thread/:thread" component={Thread} />
+        </Switch>
+    </Router>
+  </Provider>,
   document.getElementById('root'));
 registerServiceWorker();

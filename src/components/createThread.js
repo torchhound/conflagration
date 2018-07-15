@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
 import Firebase from 'firebase';
 import uuidv4 from 'uuid/v4';
+import { connect } from "react-redux";
 
 class CreateThread extends Component {
+  constructor(props){
+    super(props);
+    this.onFormSubmit = this.onFormSubmit.bind(this); 
+  }
   onFormSubmit() {
     const file = document.getElementById("file").files[0];
 
-    function submitDocument(url) {
+    function submitDocument(url, props) {
       const post = {body: document.getElementById("comment").value, url: url, id: uuidv4()};
-      const thread = {subject: document.getElementById("subject").value, posts: [post], id: uuidv4()};
+      const thread = {subject: document.getElementById("subject").value, posts: [post], id: uuidv4(), board: props.board};
       const collection = Firebase.firestore().collection('threads');
       collection.add(thread).then(function() {
         window.alert('Successful Thread Post!');
@@ -26,13 +31,13 @@ class CreateThread extends Component {
 
       storageRef.child('images/' + file.name).put(file, metadata).then(function(reference) {
         reference.ref.getDownloadURL().then(function(url) {
-          submitDocument(url);
+          submitDocument(url, this.props);
         });
       }).catch(function(error) {
         console.error('Upload failed:', error);
       });
     } else {
-      submitDocument('');
+      submitDocument('', this.props);
     }
   }
 
@@ -83,4 +88,10 @@ class CreateThread extends Component {
   }
 }
 
-export default CreateThread;
+function mapStateToProps(state) {
+  console.log(state);
+  const props = { board: state.boardReducer.board };
+  return props;
+}
+
+export default connect(mapStateToProps)(CreateThread);
