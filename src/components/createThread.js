@@ -5,31 +5,40 @@ import uuidv4 from 'uuid/v4';
 class CreateThread extends Component {
   onFormSubmit() {
     const file = document.getElementById("file").files[0];
-    const storageRef = Firebase.storage().ref();
 
-    const metadata = {
-      'contentType': file.type
-    };
-
-    storageRef.child('images/' + file.name).put(file, metadata).then(function(reference) {
-      reference.ref.getDownloadURL().then(function(url) {
-        let post = {body: document.getElementById("comment").value, url: url, id: uuidv4()};
-        const thread = {subject: document.getElementById("subject").value, posts: [post], id: uuidv4()};
-        const collection = Firebase.firestore().collection('threads');
-        collection.add(thread).then(function() {
-          window.alert('Successful Thread Post!');
-        }).catch(function() {
-          window.alert('Failed to post thread...');
-        });
+    function submitDocument(url) {
+      const post = {body: document.getElementById("comment").value, url: url, id: uuidv4()};
+      const thread = {subject: document.getElementById("subject").value, posts: [post], id: uuidv4()};
+      const collection = Firebase.firestore().collection('threads');
+      collection.add(thread).then(function() {
+        window.alert('Successful Thread Post!');
+      }).catch(function() {
+        window.alert('Failed to post thread...');
       });
-    }).catch(function(error) {
-      console.error('Upload failed:', error);
-    });
+    }
+
+    if (file !== undefined) {
+      const storageRef = Firebase.storage().ref();
+
+      const metadata = {
+        'contentType': file.type
+      };
+
+      storageRef.child('images/' + file.name).put(file, metadata).then(function(reference) {
+        reference.ref.getDownloadURL().then(function(url) {
+          submitDocument(url);
+        });
+      }).catch(function(error) {
+        console.error('Upload failed:', error);
+      });
+    } else {
+      submitDocument('');
+    }
   }
 
   render() {
     return (
-      <div className="CreateThread">
+      <div className="CreateThread" style={{marginBottom: 5}}>
         <h1 className="subtitle">New Post</h1>
         <div className="field">
           <label className="label">Thread Subject</label>
@@ -55,14 +64,9 @@ class CreateThread extends Component {
                   Choose an image…
                 </span>
               </span>
-              <span className="file-name" value={`
-                let file = document.getElementById("file").files[0];
-                if (file !== null) {
-                  return file.name    
-                } else {
-                  return "File Name"
-                }
-                `}/>
+              <span className="file-name">
+                Image File Name
+              </span>
             </label>
           </div>
         </div>
