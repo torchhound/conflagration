@@ -8,15 +8,23 @@ class CreateThread extends Component {
     super(props);
     this.onFormSubmit = this.onFormSubmit.bind(this); 
   }
+
   onFormSubmit() {
     const file = document.getElementById("file").files[0];
 
     function submitDocument(url, props) {
-      const post = {body: document.getElementById("comment").value, url: url, id: uuidv4()};
-      const thread = {subject: document.getElementById("subject").value, posts: [post], id: uuidv4(), board: props.board};
-      const collection = Firebase.firestore().collection('threads');
-      collection.add(thread).then(function() {
-        window.alert('Successful Thread Post!');
+      console.log(props);
+      const threadId = uuidv4();
+      const post = {body: document.getElementById("comment").value, url: url, id: uuidv4(), thread: threadId};
+      const thread = {subject: document.getElementById("subject").value, first: post, id: threadId, board: props.board};
+      const threadCollection = Firebase.firestore().collection('threads');
+      const postCollection = Firebase.firestore().collection('posts');
+      postCollection.add(post).then(function() {
+        threadCollection.add(thread).then(function() {
+          window.alert('Successful Thread Post!');
+        }).catch(function() {
+          window.alert('Failed to post thread...');
+        });
       }).catch(function() {
         window.alert('Failed to post thread...');
       });
@@ -89,8 +97,7 @@ class CreateThread extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log(state);
-  const props = { board: state.boardReducer.board };
+  const props = { board: state.board.name };
   return props;
 }
 

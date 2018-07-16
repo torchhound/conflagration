@@ -3,6 +3,13 @@ import Firebase from 'firebase';
 export const FETCH_THREADS_BEGIN   = 'FETCH_THREADS_BEGIN';
 export const FETCH_THREADS_SUCCESS = 'FETCH_THREADS_SUCCESS';
 
+export const SET_THREAD = 'SET_THREAD';
+
+export const setThreadState = thread => ({
+  type: SET_THREAD,
+  thread
+});
+
 export const fetchThreadsBegin = () => ({
   type: FETCH_THREADS_BEGIN
 });

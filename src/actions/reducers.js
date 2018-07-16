@@ -1,20 +1,34 @@
 import { combineReducers } from 'redux';
 import { SET_BOARD } from './boardActions';
+import { SET_THREAD } from './threadActions';
 
-function boardReducer(state = [], action) {
+function board(state = {}, action) {
   switch(action.type) {
     case SET_BOARD:
       return {
-        ...state,
-        ...action.board
+        ...state, 
+        name: action.board
       }
     default:
-      return state
+      return state;
+  }
+}
+
+function thread(state = {}, action) {
+  switch(action.type) {
+    case SET_THREAD:
+      return {
+        ...state,
+        name: action.thread
+      }
+    default:
+      return state;
   }
 }
 
 const imageboard = combineReducers({
-  boardReducer
+  board,
+  thread
 });
 
 export default imageboard

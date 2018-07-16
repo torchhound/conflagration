@@ -4,4 +4,3 @@ export const setBoardState = board => ({
   type: SET_BOARD,
   board
 });
-

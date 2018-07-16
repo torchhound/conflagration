@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import Firebase from 'firebase';
 import uuidv4 from 'uuid/v4';
+import { connect } from "react-redux";
 
 class CreatePost extends Component {
-    onFormSubmit() {
+  constructor(props){
+    super(props);
+    this.onFormSubmit = this.onFormSubmit.bind(this); 
+  }
+
+  onFormSubmit() {
     const file = document.getElementById("file").files[0];
 
-    function submitDocument(url) {
-      const post = {body: document.getElementById("comment").value, url: url, id: uuidv4()};
+    function submitDocument(url, props) {
+      const post = {body: document.getElementById("comment").value, url: url, id: uuidv4(), thread: props.thread};
       const collection = Firebase.firestore().collection('posts');
       collection.add(post).then(function() {
         window.alert('Successful Reply!');
@@ -24,13 +30,13 @@ class CreatePost extends Component {
       };
       storageRef.child('images/' + file.name).put(file, metadata).then(function(reference) {
         reference.ref.getDownloadURL().then(function(url) {
-          submitDocument(url);
+          submitDocument(url, this.props);
         });
       }).catch(function(error) {
         console.error('Upload failed:', error);
       });
     } else {
-      submitDocument('');
+      submitDocument('', this.props);
     }
   }
 
@@ -75,4 +81,10 @@ class CreatePost extends Component {
   }
 }
 
-export default CreatePost;
+function mapStateToProps(state) {
+  console.log(state);
+  const props = { thread: state.thread.name };
+  return props;
+}
+
+export default connect(mapStateToProps)(CreatePost);

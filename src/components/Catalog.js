@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 import Navbar from './Navbar';
 import CreateThread from './createThread';
+import { setBoardState } from '../actions/boardActions';
+import { connect } from 'react-redux';
 
 class Catalog extends Component {
+  componentDidMount() {
+    this.props.dispatchBoard(this.props.match.params.board);
+  }
+
   render() {
     return (
       <div className="Catalog">
@@ -16,63 +22,7 @@ class Catalog extends Component {
               <figure className="image is-128x128">
                 <img src=""/>
               </figure>
-              <a href="/thread">Lorem Ipsum</a>
-            </div>
-          </div>
-          <div className="column is-one-quarter">
-            <div className="box">
-              <figure className="image is-128x128">
-                <img src=""/>
-              </figure>
-              <a href="/thread">Lorem Ipsum</a>
-            </div>
-          </div>
-          <div className="column is-one-quarter">
-            <div className="box">
-              <figure className="image is-128x128">
-                <img src=""/>
-              </figure>
-              <a href="/thread">Lorem Ipsum</a>
-            </div>
-          </div>
-          <div className="column is-one-quarter">
-            <div className="box">
-              <figure className="image is-128x128">
-                <img src=""/>
-              </figure>
-              <a href="/thread">Lorem Ipsum</a>
-            </div>
-          </div>
-          <div className="column is-one-quarter">
-            <div className="box">
-              <figure className="image is-128x128">
-                <img src=""/>
-              </figure>
-              <a href="/thread">Lorem Ipsum</a>
-            </div>
-          </div>
-          <div className="column is-one-quarter">
-            <div className="box">
-              <figure className="image is-128x128">
-                <img src=""/>
-              </figure>
-              <a href="/thread">Lorem Ipsum</a>
-            </div>
-          </div>
-          <div className="column is-one-quarter">
-            <div className="box">
-              <figure className="image is-128x128">
-                <img src=""/>
-              </figure>
-              <a href="/thread">Lorem Ipsum</a>
-            </div>
-          </div>
-          <div className="column is-one-quarter">
-            <div className="box">
-              <figure className="image is-128x128">
-                <img src=""/>
-              </figure>
-              <a href="/thread">Lorem Ipsum</a>
+              <a href="/thread/TEST_ID">Lorem Ipsum</a>
             </div>
           </div>
         </div>
@@ -84,4 +34,12 @@ class Catalog extends Component {
   }
 }
 
-export default Catalog;
+const mapDispatchToProps = dispatch => {
+  return {
+    dispatchBoard: board => {
+      dispatch(setBoardState(board));
+    }
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Catalog);
