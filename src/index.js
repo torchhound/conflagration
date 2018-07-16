@@ -6,9 +6,10 @@ import Thread from './components/Thread';
 import registerServiceWorker from './registerServiceWorker';
 import Firebase from 'firebase';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import imageboard from './actions/reducers';
+import thunk from 'redux-thunk';
 
 const config = {
   apiKey: 'AIzaSyCVC54ShrF5teBwUl_le5p31eu3f4D-v84',
@@ -23,7 +24,7 @@ const firestore = Firebase.firestore();
 const settings = {timestampsInSnapshots: true};
 firestore.settings(settings);
 
-const store = createStore(imageboard);
+const store = createStore(imageboard, applyMiddleware(thunk));
 
 ReactDOM.render(
   <Provider store={store}>

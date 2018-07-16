@@ -82,7 +82,6 @@ class CreatePost extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log(state);
   const props = { thread: state.thread.name };
   return props;
 }

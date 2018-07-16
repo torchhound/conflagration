@@ -1,30 +1,51 @@
 import React, { Component } from 'react';
 import Navbar from './Navbar';
 import CreateThread from './createThread';
-import { setBoardState } from '../actions/boardActions';
+import { setBoardState, fetchThreads } from '../actions/boardActions';
 import { connect } from 'react-redux';
 
 class Catalog extends Component {
   componentDidMount() {
-    this.props.dispatchBoard(this.props.match.params.board);
+    const board = this.props.match.params.board;
+    this.props.dispatchBoard(board);
+    this.props.dispatchFetchThreads(board);
   }
 
   render() {
+    const { error, loading, threads } = this.props;
+
+    let alertDiv = '';
+
+    if (error) {
+      alertDiv = <div className="notification is-danger">Error: {error}</div>
+    }   
+
+    if (loading) {
+      alertDiv = <div className="notification is-primary is-loading">Loading...</div>
+    } 
+
     return (
       <div className="Catalog">
         <header>
           <h1 className="title">Catalog</h1>
           <CreateThread/>
         </header>
+        {alertDiv}
         <div className="columns is-multiline">
-          <div className="column is-one-quarter">
-            <div className="box">
-              <figure className="image is-128x128">
-                <img src=""/>
-              </figure>
-              <a href="/thread/TEST_ID">Lorem Ipsum</a>
-            </div>
-          </div>
+          {
+            threads.map((thread, x)=> {
+              return (
+                <div key={x} className="column is-one-quarter">
+                  <div className="box">
+                    <figure className="image is-128x128">
+                      <img src={thread.first.url}/>
+                    </figure>
+                    <a href={`/thread/${thread.id}`}>{thread.subject}</a>
+                  </div>
+                </div>
+                )
+            })
+          }
         </div>
         <footer className="footer">
             <Navbar/>
@@ -38,8 +59,20 @@ const mapDispatchToProps = dispatch => {
   return {
     dispatchBoard: board => {
       dispatch(setBoardState(board));
+    },
+    dispatchFetchThreads: board => {
+      dispatch(fetchThreads(board));
     }
   }
 }
 
-export default connect(null, mapDispatchToProps)(Catalog);
+function mapStateToProps(state) {
+  const props = { 
+    threads: state.board.threads,
+    loading: state.board.loading,
+    error: state.board.error
+  };
+  return props;
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Catalog);
