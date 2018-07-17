@@ -28,8 +28,8 @@ class CreatePost extends Component {
       const metadata = {
         'contentType': file.type
       };
-      storageRef.child('images/' + file.name).put(file, metadata).then(function(reference) {
-        reference.ref.getDownloadURL().then(function(url) {
+      storageRef.child('images/' + file.name).put(file, metadata).then(reference => {
+        reference.ref.getDownloadURL().then(url => {
           submitDocument(url, this.props);
         });
       }).catch(function(error) {

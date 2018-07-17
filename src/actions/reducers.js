@@ -1,16 +1,20 @@
 import { combineReducers } from 'redux';
 import { SET_BOARD, FETCH_THREADS_BEGIN, 
   FETCH_THREADS_SUCCESS, FETCH_THREADS_FAILURE } from './boardActions';
-import { SET_THREAD } from './threadActions';
+import { SET_THREAD, FETCH_POSTS_BEGIN, 
+  FETCH_POSTS_SUCCESS, FETCH_POSTS_FAILURE } from './threadActions';
 
 const initialState = {
   board: {
     threads: [],
     loading: true,
     error: null,
-    board: '',
+    board: ''
   },
   thread: {
+    posts: [],
+    loading: true,
+    error: null,
     thread: ''
   }
 };
@@ -52,6 +56,25 @@ function thread(state = initialState.thread, action) {
       return {
         ...state,
         name: action.thread
+      }
+    case FETCH_POSTS_BEGIN:
+      return{
+        ...state,
+        loading: true,
+        error: null
+      }
+    case FETCH_POSTS_SUCCESS:
+      return{
+        ...state,
+        loading: false,
+        error: null,
+        posts: action.payload.posts
+      }
+    case FETCH_POSTS_FAILURE:
+      return{
+        ...state,
+        loading: true,
+        error: action.payload.error
       }
     default:
       return state;
