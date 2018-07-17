@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Firebase from 'firebase';
 import uuidv4 from 'uuid/v4';
 import { connect } from "react-redux";
+import { setThreadFileNameState } from '../actions/threadActions';
 
 class CreatePost extends Component {
   constructor(props){
@@ -40,6 +41,13 @@ class CreatePost extends Component {
     }
   }
 
+  onFileNameChange() {
+    if (document.getElementById("file").files[0] !== undefined) {
+      const fileName = document.getElementById("file").files[0].name;
+      this.props.dispatchFileName(fileName);
+    }
+  }
+
   render() {
     return (
       <div className="CreatePost" style={{marginBottom: 5}}>
@@ -53,7 +61,7 @@ class CreatePost extends Component {
         <div className="field">
           <div className="file has-name is-fullwidth">
             <label className="file-label">
-              <input className="file-input" type="file" name="file" id="file" />
+              <input className="file-input" type="file" onChange={this.onFileNameChange.bind(this)} name="file" id="file" />
               <span className="file-cta">
                 <span className="file-icon">
                   <i className="fas fa-upload"></i>
@@ -63,7 +71,7 @@ class CreatePost extends Component {
                 </span>
               </span>
               <span className="file-name">
-                Image File Name
+                {this.props.fileName}
               </span>
             </label>
           </div>
@@ -81,8 +89,18 @@ class CreatePost extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return { thread: state.thread.name };
+const mapDispatchToProps = dispatch => {
+  return {
+    dispatchFileName: fileName => {
+      dispatch(setThreadFileNameState(fileName));
+    }
+  }
 }
 
-export default connect(mapStateToProps)(CreatePost);
+const mapStateToProps = state => {
+  return { thread: state.thread.name,
+    fileName: state.thread.fileName 
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreatePost);

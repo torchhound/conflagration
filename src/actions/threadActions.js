@@ -1,6 +1,7 @@
 import Firebase from 'firebase';
 
 export const SET_THREAD = 'SET_THREAD';
+export const SET_THREAD_FILE_NAME = 'SET_FILE_NAME';
 
 export const FETCH_POSTS_BEGIN   = 'FETCH_POSTS_BEGIN';
 export const FETCH_POSTS_SUCCESS = 'FETCH_POSTS_SUCCESS';
@@ -9,6 +10,11 @@ export const FETCH_POSTS_FAILURE = 'FETCH_POSTS_FAILURE';
 export const setThreadState = thread => ({
   type: SET_THREAD,
   thread
+});
+
+export const setThreadFileNameState = fileName => ({
+  type: SET_THREAD_FILE_NAME,
+  fileName
 });
 
 export const fetchPostsBegin = () => ({

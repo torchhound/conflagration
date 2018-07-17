@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Firebase from 'firebase';
 import uuidv4 from 'uuid/v4';
 import { connect } from "react-redux";
-import { setFileNameState } from '../actions/boardActions';
+import { setBoardFileNameState } from '../actions/boardActions';
 
 class CreateThread extends Component {
   constructor(props){
@@ -106,7 +106,7 @@ class CreateThread extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     dispatchFileName: fileName => {
-      dispatch(setFileNameState(fileName));
+      dispatch(setBoardFileNameState(fileName));
     }
   }
 }
