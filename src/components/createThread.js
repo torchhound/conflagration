@@ -13,7 +13,6 @@ class CreateThread extends Component {
     const file = document.getElementById("file").files[0];
 
     function submitDocument(url, props) {
-      console.log(props);
       const threadId = uuidv4();
       const post = {body: document.getElementById("comment").value, url: url, id: uuidv4(), thread: threadId};
       const thread = {subject: document.getElementById("subject").value, first: post, id: threadId, board: props.board};
@@ -37,8 +36,8 @@ class CreateThread extends Component {
         'contentType': file.type
       };
 
-      storageRef.child('images/' + file.name).put(file, metadata).then(function(reference) {
-        reference.ref.getDownloadURL().then(function(url) {
+      storageRef.child('images/' + file.name).put(file, metadata).then(reference => {
+        reference.ref.getDownloadURL().then(url => {
           submitDocument(url, this.props);
         });
       }).catch(function(error) {
