@@ -66,13 +66,12 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-function mapStateToProps(state) {
-  const props = { 
+const mapStateToProps = state => {
+  return { 
     threads: state.board.threads,
     loading: state.board.loading,
     error: state.board.error
   };
-  return props;
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Catalog);

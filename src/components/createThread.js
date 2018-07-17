@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Firebase from 'firebase';
 import uuidv4 from 'uuid/v4';
 import { connect } from "react-redux";
+import { setFileNameState } from '../actions/boardActions';
 
 class CreateThread extends Component {
   constructor(props){
@@ -48,6 +49,13 @@ class CreateThread extends Component {
     }
   }
 
+  onFileNameChange() {
+    if (document.getElementById("file").files[0] !== undefined) {
+      const fileName = document.getElementById("file").files[0].name;
+      this.props.dispatchFileName(fileName);
+    }
+  }
+
   render() {
     return (
       <div className="CreateThread" style={{marginBottom: 5}}>
@@ -67,7 +75,7 @@ class CreateThread extends Component {
         <div className="field">
           <div className="file has-name is-fullwidth">
             <label className="file-label">
-              <input className="file-input" type="file" name="file" id="file" />
+              <input className="file-input" type="file" onChange={this.onFileNameChange.bind(this)} name="file" id="file" />
               <span className="file-cta">
                 <span className="file-icon">
                   <i className="fas fa-upload"></i>
@@ -77,7 +85,7 @@ class CreateThread extends Component {
                 </span>
               </span>
               <span className="file-name">
-                Image File Name
+                {this.props.fileName}
               </span>
             </label>
           </div>
@@ -95,9 +103,19 @@ class CreateThread extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  const props = { board: state.board.name };
-  return props;
+const mapDispatchToProps = dispatch => {
+  return {
+    dispatchFileName: fileName => {
+      dispatch(setFileNameState(fileName));
+    }
+  }
 }
 
-export default connect(mapStateToProps)(CreateThread);
+const mapStateToProps = state => {
+  return { 
+    board: state.board.name,
+    fileName: state.board.fileName 
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateThread);

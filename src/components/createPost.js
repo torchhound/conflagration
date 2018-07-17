@@ -81,9 +81,8 @@ class CreatePost extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  const props = { thread: state.thread.name };
-  return props;
+const mapStateToProps = state => {
+  return { thread: state.thread.name };
 }
 
 export default connect(mapStateToProps)(CreatePost);

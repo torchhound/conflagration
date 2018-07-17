@@ -1,6 +1,7 @@
 import Firebase from 'firebase';
 
 export const SET_BOARD = 'SET_BOARD';
+export const SET_FILE_NAME = 'SET_FILE_NAME';
 
 export const FETCH_THREADS_BEGIN   = 'FETCH_THREADS_BEGIN';
 export const FETCH_THREADS_SUCCESS = 'FETCH_THREADS_SUCCESS';
@@ -9,6 +10,11 @@ export const FETCH_THREADS_FAILURE = 'FETCH_THREADS_FAILURE';
 export const setBoardState = board => ({
   type: SET_BOARD,
   board
+});
+
+export const setFileNameState = fileName => ({
+  type: SET_FILE_NAME,
+  fileName
 });
 
 export const fetchThreadsBegin = () => ({
