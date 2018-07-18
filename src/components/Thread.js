@@ -40,6 +40,8 @@ class Thread extends Component {
                     <figure className="image is-128x128">
                       <img src={post.url}/>
                     </figure>
+                    <b>ID: {post.id}</b> <br/>
+                    <b>Posted: {new Date(post.timestamp.seconds * 1000).toISOString()}</b>
                     <p>{post.body}</p>
                   </div>
                 </div>

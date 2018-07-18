@@ -15,8 +15,11 @@ class CreateThread extends Component {
 
     function submitDocument(url, props) {
       const threadId = uuidv4();
-      const post = {body: document.getElementById("comment").value, url: url, id: uuidv4(), thread: threadId};
-      const thread = {subject: document.getElementById("subject").value, first: post, id: threadId, board: props.board};
+      const timestamp = Firebase.firestore.ServerValue.serverTimestamp();
+      const post = {body: document.getElementById("comment").value, url: url, id: uuidv4(), 
+        thread: threadId, timestamp: timestamp};
+      const thread = {subject: document.getElementById("subject").value, first: post, 
+        id: threadId, board: props.board, timestamp: timestamp};
       const threadCollection = Firebase.firestore().collection('threads');
       const postCollection = Firebase.firestore().collection('posts');
       postCollection.add(post).then(function() {

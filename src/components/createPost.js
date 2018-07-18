@@ -14,12 +14,14 @@ class CreatePost extends Component {
     const file = document.getElementById("file").files[0];
 
     function submitDocument(url, props) {
-      const post = {body: document.getElementById("comment").value, url: url, id: uuidv4(), thread: props.thread};
+      const timestamp = Firebase.firestore.FieldValue.serverTimestamp();
+      const post = {body: document.getElementById("comment").value, url: url, id: uuidv4(), 
+        thread: props.thread, timestamp: timestamp};
       const collection = Firebase.firestore().collection('posts');
       collection.add(post).then(function() {
-        window.alert('Successful Reply!');
+        window.alert('');
       }).catch(function() {
-        window.alert('Failed to post reply...');
+        window.alert('');
       });
     }
 
@@ -84,6 +86,9 @@ class CreatePost extends Component {
             <button className="button is-text">Cancel</button>
           </div>
         </div>
+        <div id="successDiv" className="notification is-success">
+  <button className="delete"/>Successful Reply!</div>
+        <div id="failureDiv" className="notification is-danger"><button className="delete"/>Failed to post reply...</div>
       </div>
     );
   }

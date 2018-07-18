@@ -40,6 +40,7 @@ class Catalog extends Component {
                     <figure className="image is-128x128">
                       <img src={thread.first.url}/>
                     </figure>
+                    <b>Posted: {new Date(thread.timestamp.seconds * 1000).toISOString()}</b><br/>
                     <a href={`/thread/${thread.id}`}>{thread.subject}</a>
                   </div>
                 </div>
