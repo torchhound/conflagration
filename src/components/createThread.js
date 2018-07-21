@@ -7,7 +7,8 @@ import { setBoardFileNameState, postThreadSuccess } from '../actions/boardAction
 class CreateThread extends Component {
   constructor(props){
     super(props);
-    this.onFormSubmit = this.onFormSubmit.bind(this); 
+    this.onFormSubmit = this.onFormSubmit.bind(this);  
+    this.onDelete = this.onDelete.bind(this);
   }
 
   onFormSubmit() {
@@ -59,6 +60,10 @@ class CreateThread extends Component {
     }
   }
 
+  onDelete() {
+    this.props.dispatchThreadSuccess(null);
+  }
+
   render() {
     const { replySuccess } = this.props;
     let replyDiv = '';
@@ -67,9 +72,9 @@ class CreateThread extends Component {
       replyDiv = '';
     }
     else if (replySuccess) {
-        replyDiv = <div id="successDiv" className="notification is-success"><button className="delete"/>Thread Posted!</div>
+        replyDiv = <div id="successDiv" className="notification is-success"><button className="delete" onClick={this.onDelete}/>Thread Posted!</div>
     } else {
-      replyDiv = <div id="failureDiv" className="notification is-danger"><button className="delete"/>Failed to post thread...</div>
+      replyDiv = <div id="failureDiv" className="notification is-danger"><button className="delete" onClick={this.onDelete}/>Failed to post thread...</div>
     }
 
     return (

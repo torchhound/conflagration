@@ -8,6 +8,7 @@ class CreatePost extends Component {
   constructor(props){
     super(props);
     this.onFormSubmit = this.onFormSubmit.bind(this); 
+    this.onDelete = this.onDelete.bind(this);
   }
 
   onFormSubmit() {
@@ -50,6 +51,10 @@ class CreatePost extends Component {
     }
   }
 
+  onDelete() {
+    this.props.dispatchReplySuccess(null);
+  }
+
   render() {
     const { replySuccess } = this.props;
     let replyDiv = '';
@@ -58,9 +63,9 @@ class CreatePost extends Component {
       replyDiv = '';
     }
     else if (replySuccess) {
-        replyDiv = <div id="successDiv" className="notification is-success"><button className="delete"/>Successful Reply!</div>
+        replyDiv = <div id="successDiv" className="notification is-success"><button className="delete" onClick={this.onDelete}/>Successful Reply!</div>
     } else {
-      replyDiv = <div id="failureDiv" className="notification is-danger"><button className="delete"/>Failed to post reply...</div>
+      replyDiv = <div id="failureDiv" className="notification is-danger"><button className="delete" onClick={this.onDelete}/>Failed to post reply...</div>
     }
 
     return (
