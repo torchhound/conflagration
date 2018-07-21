@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Firebase from 'firebase';
 import uuidv4 from 'uuid/v4';
 import { connect } from "react-redux";
-import { setBoardFileNameState } from '../actions/boardActions';
+import { setBoardFileNameState, postThreadSuccess } from '../actions/boardActions';
 
 class CreateThread extends Component {
   constructor(props){
@@ -15,21 +15,21 @@ class CreateThread extends Component {
 
     function submitDocument(url, props) {
       const threadId = uuidv4();
-      const timestamp = Firebase.firestore.ServerValue.serverTimestamp();
+      const timestamp = Firebase.firestore.FieldValue.serverTimestamp();
       const post = {body: document.getElementById("comment").value, url: url, id: uuidv4(), 
         thread: threadId, timestamp: timestamp};
       const thread = {subject: document.getElementById("subject").value, first: post, 
         id: threadId, board: props.board, timestamp: timestamp};
       const threadCollection = Firebase.firestore().collection('threads');
       const postCollection = Firebase.firestore().collection('posts');
-      postCollection.add(post).then(function() {
-        threadCollection.add(thread).then(function() {
-          window.alert('Successful Thread Post!');
-        }).catch(function() {
-          window.alert('Failed to post thread...');
+      postCollection.add(post).then(() => {
+        threadCollection.add(thread).then(() => {
+          props.dispatchThreadSuccess(true);
+        }).catch(() => {
+          props.dispatchThreadSuccess(false);
         });
-      }).catch(function() {
-        window.alert('Failed to post thread...');
+      }).catch(() => {
+        props.dispatchThreadSuccess(false);
       });
     }
 
@@ -44,8 +44,8 @@ class CreateThread extends Component {
         reference.ref.getDownloadURL().then(url => {
           submitDocument(url, this.props);
         });
-      }).catch(function(error) {
-        console.error('Upload failed:', error);
+      }).catch(error => {
+        this.props.dispatchThreadSuccess(false);
       });
     } else {
       submitDocument('', this.props);
@@ -60,6 +60,18 @@ class CreateThread extends Component {
   }
 
   render() {
+    const { replySuccess } = this.props;
+    let replyDiv = '';
+
+    if (replySuccess === null) {
+      replyDiv = '';
+    }
+    else if (replySuccess) {
+        replyDiv = <div id="successDiv" className="notification is-success"><button className="delete"/>Thread Posted!</div>
+    } else {
+      replyDiv = <div id="failureDiv" className="notification is-danger"><button className="delete"/>Failed to post thread...</div>
+    }
+
     return (
       <div className="CreateThread" style={{marginBottom: 5}}>
         <h1 className="subtitle">New Post</h1>
@@ -101,6 +113,7 @@ class CreateThread extends Component {
             <button className="button is-text">Cancel</button>
           </div>
         </div>
+        {replyDiv}
       </div>
     );
   }
@@ -110,6 +123,9 @@ const mapDispatchToProps = dispatch => {
   return {
     dispatchFileName: fileName => {
       dispatch(setBoardFileNameState(fileName));
+    },
+    dispatchThreadSuccess: bool => {
+      dispatch(postThreadSuccess(bool));
     }
   }
 }
@@ -117,7 +133,8 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
   return { 
     board: state.board.name,
-    fileName: state.board.fileName 
+    fileName: state.board.fileName,
+    replySuccess: state.board.replySuccess 
   };
 };
 

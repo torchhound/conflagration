@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Firebase from 'firebase';
 import uuidv4 from 'uuid/v4';
 import { connect } from "react-redux";
-import { setThreadFileNameState } from '../actions/threadActions';
+import { setThreadFileNameState, postReplySuccess } from '../actions/threadActions';
 
 class CreatePost extends Component {
   constructor(props){
@@ -18,10 +18,10 @@ class CreatePost extends Component {
       const post = {body: document.getElementById("comment").value, url: url, id: uuidv4(), 
         thread: props.thread, timestamp: timestamp};
       const collection = Firebase.firestore().collection('posts');
-      collection.add(post).then(function() {
-        window.alert('');
-      }).catch(function() {
-        window.alert('');
+      collection.add(post).then(() => {
+        props.dispatchReplySuccess(true);
+      }).catch(() => {
+        props.dispatchReplySuccess(false);
       });
     }
 
@@ -35,8 +35,8 @@ class CreatePost extends Component {
         reference.ref.getDownloadURL().then(url => {
           submitDocument(url, this.props);
         });
-      }).catch(function(error) {
-        console.error('Upload failed:', error);
+      }).catch(error => {
+        this.props.dispatchReplySuccess(false);
       });
     } else {
       submitDocument('', this.props);
@@ -51,6 +51,18 @@ class CreatePost extends Component {
   }
 
   render() {
+    const { replySuccess } = this.props;
+    let replyDiv = '';
+
+    if (replySuccess === null) {
+      replyDiv = '';
+    }
+    else if (replySuccess) {
+        replyDiv = <div id="successDiv" className="notification is-success"><button className="delete"/>Successful Reply!</div>
+    } else {
+      replyDiv = <div id="failureDiv" className="notification is-danger"><button className="delete"/>Failed to post reply...</div>
+    }
+
     return (
       <div className="CreatePost" style={{marginBottom: 5}}>
         <h1 className="subtitle">New Post</h1>
@@ -86,9 +98,7 @@ class CreatePost extends Component {
             <button className="button is-text">Cancel</button>
           </div>
         </div>
-        <div id="successDiv" className="notification is-success">
-  <button className="delete"/>Successful Reply!</div>
-        <div id="failureDiv" className="notification is-danger"><button className="delete"/>Failed to post reply...</div>
+        {replyDiv}
       </div>
     );
   }
@@ -98,13 +108,17 @@ const mapDispatchToProps = dispatch => {
   return {
     dispatchFileName: fileName => {
       dispatch(setThreadFileNameState(fileName));
+    },
+    dispatchReplySuccess: bool => {
+      dispatch(postReplySuccess(bool));
     }
   }
 }
 
 const mapStateToProps = state => {
   return { thread: state.thread.name,
-    fileName: state.thread.fileName 
+    fileName: state.thread.fileName,
+    replySuccess: state.thread.replySuccess 
   };
 }
 
