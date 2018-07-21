@@ -55,6 +55,10 @@ class CreatePost extends Component {
     this.props.dispatchReplySuccess(null);
   }
 
+  onCancel() {
+    document.getElementById('replyForm').reset();
+  }
+
   render() {
     const { replySuccess } = this.props;
     let replyDiv = '';
@@ -71,6 +75,7 @@ class CreatePost extends Component {
     return (
       <div className="CreatePost" style={{marginBottom: 5}}>
         <h1 className="subtitle">New Post</h1>
+        <form id="replyForm">        
         <div className="field">
           <label className="label">Comment</label>
           <div className="control">
@@ -100,10 +105,11 @@ class CreatePost extends Component {
             <button className="button is-link" onClick={this.onFormSubmit}>Submit</button>
           </div>
           <div className="control">
-            <button className="button is-text">Cancel</button>
+            <button className="button is-text" onClick={() => this.onCancel}>Cancel</button>
           </div>
         </div>
         {replyDiv}
+        </form>
       </div>
     );
   }
