@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Navbar from './Navbar';
 import CreateThread from './createThread';
-import { setBoardState, fetchThreads } from '../actions/boardActions';
+import { setBoardState, fetchThreads,
+  setThreadTitleState } from '../actions/boardActions';
 import { connect } from 'react-redux';
 
 class Catalog extends Component {
@@ -27,7 +28,7 @@ class Catalog extends Component {
     return (
       <div className="Catalog">
         <header>
-          <h1 className="title">Catalog</h1>
+          <h1 className="title">/{this.props.match.params.board}/ - Catalog</h1>
           <CreateThread/>
         </header>
         {alertDiv}
@@ -63,6 +64,9 @@ const mapDispatchToProps = dispatch => {
     },
     dispatchFetchThreads: board => {
       dispatch(fetchThreads(board));
+    },
+    dispatchThreadTitle: threadTitle => {
+      dispatch(setThreadTitleState(threadTitle));
     }
   }
 }

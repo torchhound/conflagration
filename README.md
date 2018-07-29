@@ -6,6 +6,8 @@ Imageboard built with React, Redux, Bulma, create-react-app, and Firebase.
 
 `npm i`
 
+Create a `.env` with the details given by Firebase console.
+
 # Dev
 
 `npm start`

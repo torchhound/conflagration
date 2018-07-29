@@ -12,7 +12,7 @@ class Thread extends Component {
   }
 
   render() {
-    const { error, loading, posts } = this.props;
+    const { error, loading, posts, threadTitle } = this.props;
 
     let alertDiv = '';
 
@@ -27,7 +27,7 @@ class Thread extends Component {
     return (
       <div className="Thread">
         <header>
-          <h1 className="title">Thread</h1>
+          <h1 className="title">{threadTitle} - Thread</h1>
           <CreatePost/>
         </header>
         {alertDiv}
@@ -37,9 +37,7 @@ class Thread extends Component {
               return (
                 <div key={x} className="column is-full">
                   <div className="box">
-                    <figure className="image is-128x128">
-                      <img src={post.url}/>
-                    </figure>
+                    <img src={post.url}/> <br/>
                     <b>ID: {post.id}</b> <br/>
                     <b>Posted: {new Date(post.timestamp.seconds * 1000).toISOString()}</b>
                     <p>{post.body}</p>
@@ -68,13 +66,13 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-function mapStateToProps(state) {
-  const props = { 
+const mapStateToProps = state => {
+  return { 
     posts: state.thread.posts,
     loading: state.thread.loading,
-    error: state.thread.error
+    error: state.thread.error,
+    threadTitle: state.board.threadTitle
   };
-  return props;
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Thread);

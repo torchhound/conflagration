@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux';
 import { SET_BOARD, FETCH_THREADS_BEGIN, 
   FETCH_THREADS_SUCCESS, FETCH_THREADS_FAILURE,
-  SET_BOARD_FILE_NAME, POST_THREAD_SUCCESS } from './boardActions';
+  SET_BOARD_FILE_NAME, POST_THREAD_SUCCESS,
+  SET_THREAD_TITLE } from './boardActions';
 import { SET_THREAD, FETCH_POSTS_BEGIN, 
   FETCH_POSTS_SUCCESS, FETCH_POSTS_FAILURE,
   SET_THREAD_FILE_NAME, POST_REPLY_SUCCESS } from './threadActions';
@@ -13,7 +14,8 @@ const initialState = {
     error: null,
     board: '',
     fileName: '',
-    replySuccess: null
+    replySuccess: null,
+    threadTitle: ''
   },
   thread: {
     posts: [],
@@ -36,6 +38,11 @@ function board(state = initialState.board, action) {
       return {
         ...state,
         fileName: action.fileName
+      }
+    case SET_THREAD_TITLE:
+      return {
+        ...state,
+        threadTitle: action.threadTitle
       }
     case POST_THREAD_SUCCESS:
       return {
