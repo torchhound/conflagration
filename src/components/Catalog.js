@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Navbar from './Navbar';
 import CreateThread from './createThread';
 import { setBoardState, fetchThreads,
-  setThreadTitleState } from '../actions/boardActions';
+  setBoardThreadTitleState } from '../actions/boardActions';
 import { connect } from 'react-redux';
 
 class Catalog extends Component {
@@ -42,7 +42,7 @@ class Catalog extends Component {
                       <img src={thread.first.url}/>
                     </figure>
                     <b>Posted: {new Date(thread.timestamp.seconds * 1000).toISOString()}</b><br/>
-                    <a href={`/thread/${thread.id}`}>{thread.subject}</a>
+                    <a href={`/thread/${thread.id}`} onClick={() => {this.props.dispatchThreadTitle(thread.subject)}}>{thread.subject}</a>
                   </div>
                 </div>
                 )
@@ -66,7 +66,8 @@ const mapDispatchToProps = dispatch => {
       dispatch(fetchThreads(board));
     },
     dispatchThreadTitle: threadTitle => {
-      dispatch(setThreadTitleState(threadTitle));
+      alert(threadTitle);
+      dispatch(setBoardThreadTitleState(threadTitle));
     }
   }
 }

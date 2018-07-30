@@ -2,7 +2,7 @@ import Firebase from 'firebase';
 
 export const SET_BOARD = 'SET_BOARD';
 export const SET_BOARD_FILE_NAME = 'SET_FILE_NAME';
-export const SET_THREAD_TITLE = 'SET_THREAD_TITLE';
+export const SET_BOARD_THREAD_TITLE = 'SET_BOARD_THREAD_TITLE';
 
 export const POST_THREAD_SUCCESS = 'POST_THREAD_SUCCESS';
 
@@ -20,8 +20,8 @@ export const setBoardFileNameState = fileName => ({
   fileName
 });
 
-export const setThreadTitleState = threadTitle => ({
-  type: SET_THREAD_TITLE,
+export const setBoardThreadTitleState = threadTitle => ({
+  type: SET_BOARD_THREAD_TITLE,
   threadTitle
 });
 

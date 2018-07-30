@@ -2,10 +2,11 @@ import { combineReducers } from 'redux';
 import { SET_BOARD, FETCH_THREADS_BEGIN, 
   FETCH_THREADS_SUCCESS, FETCH_THREADS_FAILURE,
   SET_BOARD_FILE_NAME, POST_THREAD_SUCCESS,
-  SET_THREAD_TITLE } from './boardActions';
+  SET_BOARD_THREAD_TITLE } from './boardActions';
 import { SET_THREAD, FETCH_POSTS_BEGIN, 
   FETCH_POSTS_SUCCESS, FETCH_POSTS_FAILURE,
-  SET_THREAD_FILE_NAME, POST_REPLY_SUCCESS } from './threadActions';
+  SET_THREAD_FILE_NAME, POST_REPLY_SUCCESS,
+  SET_THREAD_TITLE } from './threadActions';
 
 const initialState = {
   board: {
@@ -14,8 +15,7 @@ const initialState = {
     error: null,
     board: '',
     fileName: '',
-    replySuccess: null,
-    threadTitle: ''
+    replySuccess: null
   },
   thread: {
     posts: [],
@@ -23,7 +23,8 @@ const initialState = {
     error: null,
     thread: '',
     fileName: '',
-    replySuccess: null
+    replySuccess: null,
+    threadTitle: ''
   }
 };
 
@@ -39,7 +40,7 @@ function board(state = initialState.board, action) {
         ...state,
         fileName: action.fileName
       }
-    case SET_THREAD_TITLE:
+    case SET_BOARD_THREAD_TITLE:
       return {
         ...state,
         threadTitle: action.threadTitle
@@ -78,12 +79,17 @@ function thread(state = initialState.thread, action) {
     case SET_THREAD:
       return {
         ...state,
-        name: action.thread
+        thread: action.thread
       }
     case SET_THREAD_FILE_NAME:
       return {
         ...state,
         fileName: action.fileName
+      }
+    case SET_THREAD_TITLE:
+      return {
+        ...state,
+        threadTitle: action.threadTitle
       }
     case POST_REPLY_SUCCESS:
       return {

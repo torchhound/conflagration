@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Navbar from './Navbar';
 import CreatePost from './createPost';
-import { setThreadState, fetchPosts } from '../actions/threadActions';
+import { setThreadState, fetchPosts,
+  fetchThreadTitle } from '../actions/threadActions';
 import { connect } from 'react-redux';
 
 class Thread extends Component {
@@ -9,6 +10,7 @@ class Thread extends Component {
     const thread = this.props.match.params.thread;
     this.props.dispatchThread(thread);
     this.props.dispatchFetchPosts(thread);
+    this.props.dispatchFetchThreadTitle();
   }
 
   render() {
@@ -38,7 +40,7 @@ class Thread extends Component {
                 <div key={x} className="column is-full">
                   <div className="box">
                     <img src={post.url}/> <br/>
-                    <b>ID: {post.id}</b> <br/>
+                    <b onClick={() => {alert(post.id)}}>ID: {post.id}</b> <br/>
                     <b>Posted: {new Date(post.timestamp.seconds * 1000).toISOString()}</b>
                     <p>{post.body}</p>
                   </div>
@@ -62,6 +64,9 @@ const mapDispatchToProps = dispatch => {
     },
     dispatchFetchPosts: thread => {
       dispatch(fetchPosts(thread));
+    },
+    dispatchFetchThreadTitle: () => {
+      dispatch(fetchThreadTitle());
     }
   }
 }
@@ -71,7 +76,7 @@ const mapStateToProps = state => {
     posts: state.thread.posts,
     loading: state.thread.loading,
     error: state.thread.error,
-    threadTitle: state.board.threadTitle
+    threadTitle: state.thread.threadTitle
   };
 }
 

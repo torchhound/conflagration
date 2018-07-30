@@ -2,6 +2,7 @@ import Firebase from 'firebase';
 
 export const SET_THREAD = 'SET_THREAD';
 export const SET_THREAD_FILE_NAME = 'SET_FILE_NAME';
+export const SET_THREAD_TITLE = 'SET_THREAD_TITLE';
 
 export const POST_REPLY_SUCCESS = 'POST_REPLY_SUCCESS';
 
@@ -17,6 +18,11 @@ export const setThreadState = thread => ({
 export const setThreadFileNameState = fileName => ({
   type: SET_THREAD_FILE_NAME,
   fileName
+});
+
+export const setThreadTitleState = threadTitle => ({
+  type: SET_THREAD_TITLE,
+  threadTitle
 });
 
 export const postReplySuccess = bool => ({
@@ -53,5 +59,12 @@ export function fetchPosts(thread) {
       console.log("Error getting documents: ", error);
       dispatch(fetchPostsFailure(error));
     });
+  }
+}
+
+export function fetchThreadTitle() {
+  return (dispatch, getState) => {
+    const boardThreadTitle = getState().board.threadTitle;
+    dispatch(setThreadTitleState(boardThreadTitle));
   }
 }
